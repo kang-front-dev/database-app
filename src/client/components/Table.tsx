@@ -32,7 +32,7 @@ interface IAction {
 export default function Table() {
   const [userData, setUserData] = useState([]);
   const [usersGenerated, setUsersGenerated] = useState(false);
-  const [checked, setChecked] = useState(Array<number>);
+  const [checked, setChecked] = useState([]);
 
   const navigate = useNavigate();
 
@@ -196,7 +196,7 @@ export default function Table() {
         hideFooterSelectedRowCount
         onSelectionModelChange={(ids) => {
           console.log(ids);
-          setChecked(ids as Array<GridRowId>);
+          setChecked(ids);
         }}
       /> : 'U have to login or reg'}
     </div>
