@@ -32,8 +32,7 @@ interface IAction {
 export default function Table() {
   const [userData, setUserData] = useState([]);
   const [usersGenerated, setUsersGenerated] = useState(false);
-  const userEmail = localStorage.getItem('email');
-  const [checked, setChecked] = useState(new Array());
+  const [checked, setChecked] = useState([]);
 
   const navigate = useNavigate();
 
