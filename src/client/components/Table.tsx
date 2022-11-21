@@ -4,7 +4,7 @@ import { IconButton } from '@mui/material';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { useNavigate } from 'react-router-dom';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
 
 export interface IUser {
   name?: string;
@@ -196,7 +196,7 @@ export default function Table() {
         hideFooterSelectedRowCount
         onSelectionModelChange={(ids) => {
           console.log(ids);
-          setChecked(ids);
+          setChecked(ids as Array<GridRowId>);
         }}
       /> : 'U have to login or reg'}
     </div>
