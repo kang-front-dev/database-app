@@ -1,0 +1,94 @@
+@import url(./assets/fonts/Kanit/stylesheet.css);
+* {
+  font-family: 'Kanit';
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+body {
+  background: linear-gradient(135deg, #536976, #292e49);
+}
+
+.App {
+  min-height: 0vh;
+  background: white;
+  border-radius: 20px;
+  margin-top: 20px;
+  padding: 30px;
+  padding-bottom: 70px;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: center;
+}
+.list_title {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.table {
+  padding: 50px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  &_card {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+
+    padding: 5px 0;
+    & > p {
+      margin: 0;
+    }
+    &_info {
+      display: flex;
+      align-items: center;
+      font-size: 17px;
+      font-weight: 400;
+    }
+    &_email{
+      grid-column: 2 span;
+    }
+    &_regDate {
+      font-size: 15px;
+    }
+    &_logDate {
+      font-size: 15px;
+    }
+  }
+  &_headers {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    color: gray;
+  }
+  &_header {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    &_email{
+      grid-column: 2 span;
+    }
+  }
+  &_select {
+    width: 100%;
+    text-align: start;
+    font-size: 18px;
+    background: none;
+    outline: none;
+    border: none;
+  }
+
+  &_actions {
+    display: flex;
+    column-gap: 10px;
+    margin-bottom: 20px;
+  }
+
+}
