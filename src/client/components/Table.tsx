@@ -32,7 +32,7 @@ interface IAction {
 export default function Table() {
   const [userData, setUserData] = useState([]);
   const [usersGenerated, setUsersGenerated] = useState(false);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState(Array<GridRowId>);
 
   const navigate = useNavigate();
 
