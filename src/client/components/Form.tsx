@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
 import Header from './Header';
-import Profile from './Profile';
 import { useNavigate } from 'react-router-dom';
 
 export default function Layout() {
