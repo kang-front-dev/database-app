@@ -88,7 +88,7 @@ export default function Table() {
             return response.json();
           })
           .catch((err) => console.log(err.message));
-        if (localStorage.getItem('id') === userId.toString()) {
+        if (Number(localStorage.getItem('id')) === userId) {
           localStorage.removeItem('id');
           localStorage.removeItem('email');
           localStorage.removeItem('isAuth')
@@ -111,12 +111,12 @@ export default function Table() {
             return response.json();
           })
           .catch((err) => console.log(err.message));
-        if (localStorage.getItem('id') === userId.toString()) {
-          localStorage.removeItem('id');
-          localStorage.removeItem('email');
-          localStorage.removeItem('isAuth')
-          navigate('/form');
-        }
+          if (Number(localStorage.getItem('id')) === userId) {
+            localStorage.removeItem('id');
+            localStorage.removeItem('email');
+            localStorage.removeItem('isAuth')
+            navigate('/form');
+          }
       });
     } else if (action.method === 'delete') {
       checked.forEach((userId) => {
@@ -134,12 +134,12 @@ export default function Table() {
             return response.json();
           })
           .catch((err) => console.log(err.message));
-        if (localStorage.getItem('id') === userId.toString()) {
-          localStorage.removeItem('id');
-          localStorage.removeItem('email');
-          localStorage.removeItem('isAuth')
-          navigate('/form');
-        }
+          if (Number(localStorage.getItem('id')) === userId) {
+            localStorage.removeItem('id');
+            localStorage.removeItem('email');
+            localStorage.removeItem('isAuth')
+            navigate('/form');
+          }
       });
     }
   }
