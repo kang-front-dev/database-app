@@ -12,7 +12,7 @@ export default function FormLog() {
   function login(userData: IUser) {
     console.log(JSON.stringify(userData));
     
-    return fetch('http://localhost:5000/authUser', {
+    return fetch('https://database-app-server-production.up.railway.app/authUser', {
       headers: {
         'Content-type': 'application/json',
       },

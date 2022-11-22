@@ -61,7 +61,7 @@ export default function Table() {
   ];
 
   useEffect(() => {
-    fetch('http://localhost:5000/getAll')
+    fetch('https://database-app-server-production.up.railway.app/getAll')
       .then((response) => response.json())
       .then((data) => {
         setUsersGenerated(true);
@@ -74,7 +74,7 @@ export default function Table() {
     console.log(checked, action);
     if (action.method === 'block') {
       checked.forEach((userId) => {
-        fetch('http://localhost:5000/blockUser', {
+        fetch('https://database-app-server-production.up.railway.app/blockUser', {
           headers: {
             'Content-type': 'application/json',
           },
@@ -97,7 +97,7 @@ export default function Table() {
       });
     } else if (action.method === 'unblock') {
       checked.forEach((userId) => {
-        fetch('http://localhost:5000/unblockUser', {
+        fetch('https://database-app-server-production.up.railway.app/unblockUser', {
           headers: {
             'Content-type': 'application/json',
           },
@@ -120,7 +120,7 @@ export default function Table() {
       });
     } else if (action.method === 'delete') {
       checked.forEach((userId) => {
-        fetch('http://localhost:5000/deleteUser', {
+        fetch('https://database-app-server-production.up.railway.app/deleteUser', {
           headers: {
             'Content-type': 'application/json',
           },

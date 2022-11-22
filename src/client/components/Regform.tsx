@@ -11,7 +11,7 @@ export default function FormReg() {
   function insertData(userData: IUser) {
     console.log(JSON.stringify(userData));
     
-    return fetch('http://localhost:5000/insert', {
+    return fetch('https://database-app-server-production.up.railway.app/insert', {
       headers: {
         'Content-type': 'application/json',
       },

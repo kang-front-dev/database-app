@@ -6,7 +6,7 @@ export default function Layout() {
   let [userAuth, setUserAuth] = useState(false);
   const navigate = useNavigate();
   async function checkToken() {
-    return await fetch('http://localhost:5000/checkToken', {
+    return await fetch('https://database-app-server-production.up.railway.app/checkToken', {
       headers: {
         'Content-type': 'application/json',
       },
