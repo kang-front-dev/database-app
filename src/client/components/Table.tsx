@@ -38,8 +38,8 @@ export default function Table() {
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70, sortable: false },
-    { field: 'name', headerName: 'name', width: 130, sortable: false },
-    { field: 'email', headerName: 'email', width: 190, sortable: false },
+    { field: 'name', headerName: 'name', width: 200, sortable: false },
+    { field: 'email', headerName: 'email', width: 250, sortable: false },
     {
       field: 'reg_date',
       headerName: 'regDate',
