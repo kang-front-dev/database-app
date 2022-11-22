@@ -25,7 +25,7 @@ export default function Profile() {
           localStorage.removeItem('email')
           localStorage.removeItem('id')
           localStorage.removeItem('isAuth')
-          navigate('/form')
+          navigate('/')
         }}
       >
         logout

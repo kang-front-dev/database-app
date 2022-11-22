@@ -92,7 +92,7 @@ export default function Table() {
           localStorage.removeItem('id');
           localStorage.removeItem('email');
           localStorage.removeItem('isAuth')
-          navigate('/form');
+          navigate('/');
         }
       });
     } else if (action.method === 'unblock') {
@@ -115,7 +115,7 @@ export default function Table() {
             localStorage.removeItem('id');
             localStorage.removeItem('email');
             localStorage.removeItem('isAuth')
-            navigate('/form');
+            navigate('/');
           }
       });
     } else if (action.method === 'delete') {
@@ -138,7 +138,7 @@ export default function Table() {
             localStorage.removeItem('id');
             localStorage.removeItem('email');
             localStorage.removeItem('isAuth')
-            navigate('/form');
+            navigate('/');
           }
       });
     }
