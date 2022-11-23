@@ -66,21 +66,23 @@ export default function FormReg() {
         variant="contained"
         onClick={async () => {
           console.log(name, email, password);
-          const today = getToday();
-          const response = await insertData({
-            name: name,
-            email: email,
-            password: password,
-            regDate: today,
-            lastLoginDate: today,
-            status: 0,
-          });
-          console.log(response,'response');
-          if(response.success){
-            localStorage.setItem('email',response.email)
-            localStorage.setItem('id',response.id)
-            localStorage.setItem('isAuth','1')
-            navigate('/table')
+          if(name && email && password){
+            const today = getToday();
+            const response = await insertData({
+              name: name,
+              email: email,
+              password: password,
+              regDate: today,
+              lastLoginDate: today,
+              status: 0,
+            });
+            console.log(response,'response');
+            if(response.success){
+              localStorage.setItem('email',response.email)
+              localStorage.setItem('id',response.id)
+              localStorage.setItem('isAuth','1')
+              navigate('/table')
+            }
           }
         }}
       >

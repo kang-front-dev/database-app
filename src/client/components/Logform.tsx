@@ -56,19 +56,21 @@ export default function FormLog() {
         variant="contained"
         onClick={async () => {
           console.log(email, password);
-          const today = getToday()
-          const response = await login({
-            email: email,
-            password: password,
-            lastLoginDate: today,
-          });
-          console.log(response,'response');
-          if(response.success){
-            localStorage.setItem('token',response.token)
-            localStorage.setItem('email',response.email)
-            localStorage.setItem('id',response.id)
-            localStorage.setItem('isAuth','1')
-            navigate('/table')
+          if(email && password){
+            const today = getToday()
+            const response = await login({
+              email: email,
+              password: password,
+              lastLoginDate: today,
+            });
+            console.log(response,'response');
+            if(response.success){
+              localStorage.setItem('token',response.token)
+              localStorage.setItem('email',response.email)
+              localStorage.setItem('id',response.id)
+              localStorage.setItem('isAuth','1')
+              navigate('/table')
+            }
           }
         }}
       >
