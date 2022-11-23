@@ -3,7 +3,7 @@ import Header from './Header';
 // import { useNavigate } from 'react-router-dom';
 
 export default function Layout() {
-  let [userAuth, setUserAuth] = useState(false);
+  // let [userAuth, setUserAuth] = useState(false);
   // const navigate = useNavigate();
   // async function checkToken() {
   //   return await fetch('https://database-app-server-production.up.railway.app/checkToken', {
@@ -24,7 +24,7 @@ export default function Layout() {
   // if (!userAuth && localStorage.getItem('token')) {
   //   checkToken();
   // }
-  console.log(userAuth, 'userAuth');
+  // console.log(userAuth, 'userAuth');
 
   return (
     <>
