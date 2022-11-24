@@ -4,6 +4,7 @@ import React from 'react';
 import { IUser } from './Table';
 import { useNavigate } from 'react-router-dom'
 import { getToday } from './Regform';
+import {url} from '../connection'
 
 export default function FormLog() {
   let email: string, password: string;
@@ -12,7 +13,7 @@ export default function FormLog() {
   function login(userData: IUser) {
     console.log(JSON.stringify(userData));
     
-    return fetch('https://database-app-server-production.up.railway.app/authUser', {
+    return fetch(`${url}/authUser`, {
       headers: {
         'Content-type': 'application/json',
       },
@@ -61,7 +62,7 @@ export default function FormLog() {
             const response = await login({
               email: email,
               password: password,
-              lastLoginDate: today,
+              logDate: today,
             });
             console.log(response,'response');
             if(response.success){

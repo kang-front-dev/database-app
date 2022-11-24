@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { IUser } from './Table';
 import { useNavigate } from 'react-router-dom'
+import {url} from '../connection'
 
 export default function FormReg() {
   let name: string, email: string, password: string;
@@ -11,7 +12,7 @@ export default function FormReg() {
   function insertData(userData: IUser) {
     console.log(JSON.stringify(userData));
     
-    return fetch('https://database-app-server-production.up.railway.app/insert', {
+    return fetch(`${url}/insert`, {
       headers: {
         'Content-type': 'application/json',
       },
@@ -73,8 +74,8 @@ export default function FormReg() {
               email: email,
               password: password,
               regDate: today,
-              lastLoginDate: today,
-              status: 0,
+              logDate: today,
+              statusBlock: 0,
             });
             console.log(response,'response');
             if(response.success){

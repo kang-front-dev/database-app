@@ -5,24 +5,15 @@ import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
-
+import { url } from '../connection';
 export interface IUser {
   name?: string;
-  id?: number;
+  _id?: string
   password: string;
   email: string;
   regDate?: string;
-  lastLoginDate: string;
-  status?: number;
-}
-export interface IUserXML {
-  name: string;
-  id: number;
-  password?: string;
-  email: string;
-  reg_date: string;
-  log_date: string;
-  status_block: number;
+  logDate: string;
+  statusBlock?: number;
 }
 
 interface IAction {
@@ -37,23 +28,23 @@ export default function Table() {
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70, sortable: false },
+    { field: '_id', headerName: 'ID', width: 270, sortable: false },
     { field: 'name', headerName: 'name', width: 200, sortable: false },
     { field: 'email', headerName: 'email', width: 250, sortable: false },
     {
-      field: 'reg_date',
+      field: 'regDate',
       headerName: 'regDate',
       width: 210,
       sortable: false,
     },
     {
-      field: 'log_date',
+      field: 'logDate',
       headerName: 'logDate',
       width: 210,
       sortable: false,
     },
     {
-      field: 'status_block',
+      field: 'statusBlock',
       headerName: 'status',
       width: 80,
       sortable: false,
@@ -61,9 +52,11 @@ export default function Table() {
   ];
 
   useEffect(() => {
-    fetch('https://database-app-server-production.up.railway.app/getAll')
+    fetch(`${url}/getAll`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
+        
         setUsersGenerated(true);
         setUserData(data.data);
       });
@@ -71,15 +64,14 @@ export default function Table() {
   }, [usersGenerated]);
 
   function actWithChecked(action: IAction) {
-    console.log(checked, action);
     if (action.method === 'block') {
       checked.forEach((userId) => {
-        fetch('https://database-app-server-production.up.railway.app/blockUser', {
+        fetch(`${url}/blockUser`, {
           headers: {
             'Content-type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify({ id: userId }),
+          body: JSON.stringify({ _id: userId }),
         })
           .then((response) => {
             if (!response.ok) {
@@ -88,21 +80,22 @@ export default function Table() {
             return response.json();
           })
           .catch((err) => console.log(err.message));
-        if (Number(localStorage.getItem('id')) === userId) {
+
+        if (localStorage.getItem('id') === userId) {
           localStorage.removeItem('id');
           localStorage.removeItem('email');
-          localStorage.removeItem('isAuth')
+          localStorage.removeItem('isAuth');
           navigate('/');
         }
       });
     } else if (action.method === 'unblock') {
       checked.forEach((userId) => {
-        fetch('https://database-app-server-production.up.railway.app/unblockUser', {
+        fetch(`${url}/unblockUser`, {
           headers: {
             'Content-type': 'application/json',
           },
           method: 'PATCH',
-          body: JSON.stringify({ id: userId }),
+          body: JSON.stringify({ _id: userId }),
         })
           .then((response) => {
             if (!response.ok) {
@@ -111,21 +104,21 @@ export default function Table() {
             return response.json();
           })
           .catch((err) => console.log(err.message));
-          if (Number(localStorage.getItem('id')) === userId) {
-            localStorage.removeItem('id');
-            localStorage.removeItem('email');
-            localStorage.removeItem('isAuth')
-            navigate('/');
-          }
+        if (localStorage.getItem('id') === userId) {
+          localStorage.removeItem('id');
+          localStorage.removeItem('email');
+          localStorage.removeItem('isAuth');
+          navigate('/');
+        }
       });
     } else if (action.method === 'delete') {
       checked.forEach((userId) => {
-        fetch('https://database-app-server-production.up.railway.app/deleteUser', {
+        fetch(`${url}/deleteUser`, {
           headers: {
             'Content-type': 'application/json',
           },
           method: 'DELETE',
-          body: JSON.stringify({ id: userId }),
+          body: JSON.stringify({ _id: userId }),
         })
           .then((response) => {
             if (!response.ok) {
@@ -134,12 +127,12 @@ export default function Table() {
             return response.json();
           })
           .catch((err) => console.log(err.message));
-          if (Number(localStorage.getItem('id')) === userId) {
-            localStorage.removeItem('id');
-            localStorage.removeItem('email');
-            localStorage.removeItem('isAuth')
-            navigate('/');
-          }
+        if (localStorage.getItem('id') === userId) {
+          localStorage.removeItem('id');
+          localStorage.removeItem('email');
+          localStorage.removeItem('isAuth');
+          navigate('/');
+        }
       });
     }
   }
@@ -175,30 +168,25 @@ export default function Table() {
           <DeleteForeverTwoToneIcon />
         </IconButton>
       </div>
-      {localStorage.getItem('isAuth') ? <DataGrid
-        rows={userData.map((item: IUserXML) => {
-          item.reg_date = item.reg_date.split('T').join(' ');
-          const regArr = item.reg_date.split('');
-          regArr.splice(19, 5);
-          item.reg_date = regArr.join('');
-          item.log_date = item.log_date.split('T').join(' ');
-          const logArr = item.log_date.split('');
-          logArr.splice(19, 5);
-          item.log_date = logArr.join('');
-          return item;
-        })}
-        columns={columns}
-        checkboxSelection
-        disableSelectionOnClick
-        disableColumnMenu
-        hideFooterPagination
-        hideFooter
-        hideFooterSelectedRowCount
-        onSelectionModelChange={(ids) => {
-          console.log(ids);
-          setChecked(ids);
-        }}
-      /> : 'U have to login or reg'}
+      {localStorage.getItem('isAuth') ? (
+        <DataGrid
+          rows={userData}
+          getRowId={(rows)=> rows._id}
+          columns={columns}
+          checkboxSelection
+          disableSelectionOnClick
+          disableColumnMenu
+          hideFooterPagination
+          hideFooter
+          hideFooterSelectedRowCount
+          onSelectionModelChange={(ids) => {
+            console.log(ids);
+            setChecked(ids);
+          }}
+        />
+      ) : (
+        'U have to login or reg'
+      )}
     </div>
   );
 }
