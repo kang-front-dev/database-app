@@ -3,6 +3,14 @@ import Regpage from './client/pages/Regpage';
 import Logpage from './client/pages/Logpage';
 import Tablepage from './client/pages/Tablepage';
 import Formpage from './client/pages/Formpage';
+
+import WebSocket from 'ws';
+
+const ws = new WebSocket('https://database-app-server-production.up.railway.app')
+ws.on('open', function open() {
+  ws.send('hello world');
+});
+
 function App() {
 
   return (
