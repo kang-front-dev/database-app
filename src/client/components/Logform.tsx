@@ -2,28 +2,65 @@ import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { IUser } from './Table';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { getToday } from './Regform';
-import {url} from '../connection'
+import { url } from '../connection';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function FormLog() {
   let email: string, password: string;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function login(userData: IUser) {
     console.log(JSON.stringify(userData));
-    
+
     return fetch(`${url}/authUser`, {
       headers: {
         'Content-type': 'application/json',
       },
       method: 'PATCH',
       body: JSON.stringify(userData),
-    }).then((response) => {
-      console.log(response,'response from log');
-      return response.json();
-    }).catch(err=>console.log(err.message,'ERROR'));
+    })
+      .then((response) => {
+        console.log(response, 'response from log');
+        return response.json();
+      })
+      .catch((err) => console.log(err.message, 'ERROR'));
   }
+
+  const [open, setOpen] = React.useState(false);
+  const [snackMessage, setSnackMessage] = React.useState('');
+
+  const handleClick = (message: string) => {
+    setSnackMessage(message);
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Box
@@ -57,27 +94,41 @@ export default function FormLog() {
         variant="contained"
         onClick={async () => {
           console.log(email, password);
-          if(email && password){
-            const today = getToday()
+          if (email && password) {
+            const today = getToday();
             const response = await login({
               email: email,
               password: password,
               logDate: today,
             });
-            console.log(response,'response');
-            if(response.success){
-              localStorage.setItem('token',response.token)
-              localStorage.setItem('email',response.email)
-              localStorage.setItem('id',response.id)
-              localStorage.setItem('isAuth','1')
-              navigate('/table')
+            console.log(response, 'response');
+            if (response.success) {
+              localStorage.setItem('token', response.token);
+              localStorage.setItem('email', response.email);
+              localStorage.setItem('id', response.id);
+              localStorage.setItem('isAuth', '1');
+              navigate('/table');
+            } else {
+              handleClick(response.message);
             }
+          } else if (!email && !password) {
+            handleClick('Please complete the form');
+          } else if (!password) {
+            handleClick('Password required');
+          } else if (!email) {
+            handleClick('Email required');
           }
         }}
       >
         Login
       </Button>
+      <Snackbar
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        message={snackMessage}
+        action={action}
+      />
     </Box>
   );
 }
-
