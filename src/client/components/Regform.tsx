@@ -1,17 +1,18 @@
 import { Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { IUser } from './Table';
 import { useNavigate } from 'react-router-dom';
 import { url } from '../connection';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Grid from '@mui/material/Grid';
 
 export default function FormReg() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   function insertData(userData: IUser) {
@@ -25,8 +26,8 @@ export default function FormReg() {
       body: JSON.stringify(userData),
     })
       .then((response) => {
-        console.log(response,'respopopop');
-        
+        console.log(response, 'respopopop');
+
         return response.json();
       })
       .catch((err) => console.log(err.message, 'ERROR'));
@@ -73,13 +74,17 @@ export default function FormReg() {
       noValidate
       autoComplete="on"
       className="form"
+      style={{
+        maxWidth: '260.39px',
+        width: '100%',
+      }}
     >
       <TextField
         required
         autoComplete="on"
         label="Name"
         onInput={(e) => {
-          setName((e.target as HTMLInputElement).value)
+          setName((e.target as HTMLInputElement).value);
         }}
       />
 
@@ -89,7 +94,7 @@ export default function FormReg() {
         type="email"
         label="Email"
         onInput={(e) => {
-          setEmail((e.target as HTMLInputElement).value)
+          setEmail((e.target as HTMLInputElement).value);
         }}
       />
       <TextField
@@ -98,46 +103,58 @@ export default function FormReg() {
         autoComplete="on"
         label="Password"
         onInput={(e) => {
-          setPassword((e.target as HTMLInputElement).value)
+          setPassword((e.target as HTMLInputElement).value);
         }}
       />
-      <Button
-        variant="contained"
-        onClick={async () => {
-          console.log(name, email, password);
+      <Grid container columns={10} spacing={1}>
+        <Grid item xs={3}>
+          <Button variant="contained" color="error" onClick={()=>{
+            navigate('/')
+          }}>
+            Back
+          </Button>
+        </Grid>
+        <Grid item xs={7}>
+          <Button
+            variant="contained"
+            style={{ width: '100%' }}
+            onClick={async () => {
+              console.log(name, email, password);
 
-          if (name && email && password) {
-            const today = getToday();
-            const response = await insertData({
-              name: name,
-              email: email,
-              password: password,
-              regDate: today,
-              logDate: today,
-              statusBlock: 0,
-            });
-            console.log(response, 'response');
-            if (response.success) {
-              localStorage.setItem('email', response.email);
-              localStorage.setItem('id', response.id);
-              localStorage.setItem('isAuth', '1');
-              navigate('/table');
-            }else{
-              handleClick(response.message);
-            }
-          } else if (!name && !email && !password) {
-            handleClick('Please complete the form');
-          } else if (!password) {
-            handleClick('Password required');
-          } else if (!email) {
-            handleClick('Email required');
-          } else if (!name) {
-            handleClick('Name required');
-          }
-        }}
-      >
-        Register
-      </Button>
+              if (name && email && password) {
+                const today = getToday();
+                const response = await insertData({
+                  name: name,
+                  email: email,
+                  password: password,
+                  regDate: today,
+                  logDate: today,
+                  statusBlock: 0,
+                });
+                console.log(response, 'response');
+                if (response.success) {
+                  localStorage.setItem('email', response.email);
+                  localStorage.setItem('id', response.id);
+                  localStorage.setItem('isAuth', '1');
+                  navigate('/table');
+                } else {
+                  handleClick(response.message);
+                }
+              } else if (!name && !email && !password) {
+                handleClick('Please complete the form');
+              } else if (!password) {
+                handleClick('Password required');
+              } else if (!email) {
+                handleClick('Email required');
+              } else if (!name) {
+                handleClick('Name required');
+              }
+            }}
+          >
+            Register
+          </Button>
+        </Grid>
+      </Grid>
       <Snackbar
         open={open}
         autoHideDuration={4000}

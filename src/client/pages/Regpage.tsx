@@ -6,11 +6,6 @@ import { Link } from 'react-router-dom';
 export default function Regpage() {
   return (
     <>
-      <Link to="/">
-        <Button variant="contained" color="error">
-          Back
-        </Button>
-      </Link>
       <FormReg></FormReg>
     </>
   );

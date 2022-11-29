@@ -8,7 +8,7 @@ import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
 import { url } from '../connection';
 export interface IUser {
   name?: string;
-  _id?: string
+  _id?: string;
   password: string;
   email: string;
   regDate?: string;
@@ -56,7 +56,7 @@ export default function Table() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        
+
         setUsersGenerated(true);
         setUserData(data.data);
       });
@@ -64,81 +64,33 @@ export default function Table() {
   }, [usersGenerated]);
 
   function actWithChecked(action: IAction) {
-    if (action.method === 'block') {
-      checked.forEach((userId) => {
-        fetch(`${url}/blockUser`, {
-          headers: {
-            'Content-type': 'application/json',
-          },
-          method: 'PATCH',
-          body: JSON.stringify({ _id: userId }),
+    checked.forEach((userId) => {
+      fetch(`${url}/${action.method}User`, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+        method: action.method === 'delete' ? 'DELETE' : 'PATCH',
+        body: JSON.stringify({ _id: userId }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return false;
+          }
+          return response.json();
         })
-          .then((response) => {
-            if (!response.ok) {
-              return false;
-            }
-            return response.json();
-          })
-          .catch((err) => console.log(err.message));
+        .catch((err) => console.log(err.message));
 
-        if (localStorage.getItem('id') === userId) {
-          localStorage.removeItem('id');
-          localStorage.removeItem('email');
-          localStorage.removeItem('isAuth');
-          navigate('/');
-        }
-      });
-    } else if (action.method === 'unblock') {
-      checked.forEach((userId) => {
-        fetch(`${url}/unblockUser`, {
-          headers: {
-            'Content-type': 'application/json',
-          },
-          method: 'PATCH',
-          body: JSON.stringify({ _id: userId }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              return false;
-            }
-            return response.json();
-          })
-          .catch((err) => console.log(err.message));
-        if (localStorage.getItem('id') === userId) {
-          localStorage.removeItem('id');
-          localStorage.removeItem('email');
-          localStorage.removeItem('isAuth');
-          navigate('/');
-        }
-      });
-    } else if (action.method === 'delete') {
-      checked.forEach((userId) => {
-        fetch(`${url}/deleteUser`, {
-          headers: {
-            'Content-type': 'application/json',
-          },
-          method: 'DELETE',
-          body: JSON.stringify({ _id: userId }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              return false;
-            }
-            return response.json();
-          })
-          .catch((err) => console.log(err.message));
-        if (localStorage.getItem('id') === userId) {
-          localStorage.removeItem('id');
-          localStorage.removeItem('email');
-          localStorage.removeItem('isAuth');
-          navigate('/');
-        }
-      });
-    }
+      if (localStorage.getItem('id') === userId && action.method !== 'unblock') {
+        localStorage.removeItem('id');
+        localStorage.removeItem('email');
+        localStorage.removeItem('isAuth');
+        navigate('/');
+      }
+    });
   }
 
   return (
-    <div style={{ height: 700, width: '100%', marginTop: '20px' }}>
+    <div style={{ height: 700, marginTop: '20px',paddingBottom: '40px' }}>
       <div className="table_buttons">
         <IconButton
           color="error"
@@ -171,7 +123,7 @@ export default function Table() {
       {localStorage.getItem('isAuth') ? (
         <DataGrid
           rows={userData}
-          getRowId={(rows)=> rows._id}
+          getRowId={(rows) => rows._id}
           columns={columns}
           checkboxSelection
           disableSelectionOnClick

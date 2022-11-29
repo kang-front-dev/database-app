@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { IUser } from './Table';
@@ -71,6 +71,10 @@ export default function FormLog() {
       noValidate
       autoComplete="on"
       className="form"
+      style={{
+        maxWidth: '260.39px',
+        width: '100%',
+      }}
     >
       <TextField
         required
@@ -90,38 +94,55 @@ export default function FormLog() {
           password = (e.target as HTMLInputElement).value;
         }}
       />
-      <Button
-        variant="contained"
-        onClick={async () => {
-          console.log(email, password);
-          if (email && password) {
-            const today = getToday();
-            const response = await login({
-              email: email,
-              password: password,
-              logDate: today,
-            });
-            console.log(response, 'response');
-            if (response.success) {
-              localStorage.setItem('token', response.token);
-              localStorage.setItem('email', response.email);
-              localStorage.setItem('id', response.id);
-              localStorage.setItem('isAuth', '1');
-              navigate('/table');
-            } else {
-              handleClick(response.message);
-            }
-          } else if (!email && !password) {
-            handleClick('Please complete the form');
-          } else if (!password) {
-            handleClick('Password required');
-          } else if (!email) {
-            handleClick('Email required');
-          }
-        }}
-      >
-        Login
-      </Button>
+      <Grid container columns={10} spacing={1}>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            Back
+          </Button>
+        </Grid>
+        <Grid item xs={7}>
+          <Button
+            variant="contained"
+            style={{width: '100%'}}
+            onClick={async () => {
+              console.log(email, password);
+              if (email && password) {
+                const today = getToday();
+                const response = await login({
+                  email: email,
+                  password: password,
+                  logDate: today,
+                });
+                console.log(response, 'response');
+                if (response.success) {
+                  localStorage.setItem('token', response.token);
+                  localStorage.setItem('email', response.email);
+                  localStorage.setItem('id', response.id);
+                  localStorage.setItem('isAuth', '1');
+                  navigate('/table');
+                } else {
+                  handleClick(response.message);
+                }
+              } else if (!email && !password) {
+                handleClick('Please complete the form');
+              } else if (!password) {
+                handleClick('Password required');
+              } else if (!email) {
+                handleClick('Email required');
+              }
+            }}
+          >
+            Login
+          </Button>
+        </Grid>
+      </Grid>
+
       <Snackbar
         open={open}
         autoHideDuration={4000}

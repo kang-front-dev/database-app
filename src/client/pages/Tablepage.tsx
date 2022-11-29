@@ -5,7 +5,7 @@ import Table from '../components/Table';
 export default function Tablepage() {
 
   return (
-    <div>
+    <div style={{width: '100%'}}>
       <Profile></Profile>
       <Table></Table>
     </div>

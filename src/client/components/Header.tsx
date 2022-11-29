@@ -4,17 +4,15 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <div>
-      <header>
-        <Link to="/reg">
-          <Button variant="contained">Register</Button>
-        </Link>
-        <Link to="/log">
-          <Button variant="contained" style={{ marginLeft: '10px' }}>
-            Login
-          </Button>
-        </Link>
-      </header>
-    </div>
+    <header>
+      <Link to="/reg">
+        <Button variant="contained">Register</Button>
+      </Link>
+      <Link to="/log">
+        <Button variant="contained" style={{ marginLeft: '10px' }}>
+          Login
+        </Button>
+      </Link>
+    </header>
   );
 }
